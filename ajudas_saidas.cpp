@@ -68,7 +68,7 @@ for(int i = 0;i < total_respostas;i++){
         else{
                 cont_d++;
         }
-        //terminar de implementar a ajuda e reestruturar o codigo
+        //terminar de implementar a ajudar e reestruturar o codigo
 }
 
  

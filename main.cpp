@@ -7,9 +7,7 @@
 
 float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* ajudas, FILE *arq);
 void saidas(perguntas pergunta, int* ajudas);
-int randomizador(int* vet_questao, int a, int b);
-int* zera_vetor(int* vet_questao);
-int pula_pergunta(int nivel, int* vet_questao, int* ajudas, FILE *arq);
+
 
 
 
@@ -73,9 +71,6 @@ int main(void){
     return 0;
 }
 
-
-
-
 float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* ajudas, FILE *arq){
     int i, cursor, resposta_aux = 0;
     char resposta;
@@ -102,7 +97,10 @@ float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* aju
         fflush(stdin);
 
         if(resposta == '1' && ajudas[0] > 0){
-            resposta_aux = pula_pergunta(nivel, vet_questao, ajudas, arq);
+             ajudas[0]--;
+            printf("\nPulando para a próxima pergunta!!");
+            //volta pro topo do loop
+            continue;
         }
 
         if(resposta == pergunta.alt_correta || resposta_aux == 1){
@@ -141,51 +139,4 @@ float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* aju
 }
 
 
-
-
-int* zera_vetor(int* vet_questao){
-    vet_questao = (int *) malloc(sizeof(int) * 8);
-    for(int i = 0; i<8; i++){
-        vet_questao[i] = -1;
-    }
-    return vet_questao;
-}
-
-int pula_pergunta(int nivel, int* vet_questao, int* ajudas, FILE *arq){
-        int i, cursor;
-        char resposta, resposta_aux = 0;
-        perguntas pergunta;
-
-        ajudas[0] = ajudas[0] - 1;
-
-        if(nivel < 4){
-            cursor = randomizador(vet_questao, 20, nivel - 1);
-        }else{
-            cursor = randomizador(vet_questao, 10, nivel - 1);
-        }
-
-        for(i=0; i<8; i++){
-            if(vet_questao[i] == -1){
-                vet_questao[i] = cursor;
-                break;
-            }
-        }
-
-        fseek(arq, cursor * sizeof(perguntas), SEEK_SET);
-        fread(&pergunta, sizeof(perguntas), 1, arq);     
-        
-        saidas(pergunta, ajudas);
-        scanf("%c", &resposta);
-        fflush(stdin);
-        
-        if(resposta == '1' && ajudas[0] > 0){
-            resposta_aux = pula_pergunta(nivel, vet_questao, ajudas, arq);
-        }else if(resposta == '5'){
-            return 5;
-        }else if(resposta == pergunta.alt_correta || resposta_aux == 1){
-            return 1;
-        }else{
-            return 0;
-        }
-}
 

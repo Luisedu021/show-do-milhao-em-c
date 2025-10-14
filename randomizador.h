@@ -1,16 +1,10 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+#ifndef RANDOMIZADOR_H
+#define RANDOMIZADOR_H
 
-int randomizador(int* vet_questao, int a, int b){
-    int cursor = (rand() % 20) + 20*b;
+// Declaração (protótipo) das funções que sua biblioteca oferece.
+int randomizador(int* vet_questao, int a, int b);
 
-    for(int i=0; i<8; i++){
-        if(cursor == vet_questao[i]){
-            cursor = (rand() % a) + 20*b;
-            i = 0;
-        }
-    }
+// Usando a versão corrigida da função zera_vetor
+void zera_vetor(int* vet_questao);
 
-    return cursor;
-}
+#endif // RANDOMIZADOR_H
