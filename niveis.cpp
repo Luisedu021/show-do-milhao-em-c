@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "niveis.h"
 #include "randomizador.h"
-#include "ajudas_saidas.h"
 
-float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* ajudas, FILE *arq){
+
+float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* ajudas, FILE *arq,perguntas pergunta){
     int i, cursor, resposta_aux = 0;
     char resposta;
-    perguntas pergunta;
+    
 
     while(saldo < saldo_max){
         if(nivel < 4){
@@ -27,16 +28,10 @@ float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* aju
 
         saidas(pergunta, ajudas);
         scanf("%c", &resposta);
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
-        //tratando erro caso o usuario 
-        //pulando pergunta manualmente,redudante fazer uma função que usa os mesmos parametro,além de dar um bug as vezes
+        fflush(stdin);
+
         if(resposta == '1' && ajudas[0] > 0){
-            ajudas[0]--;
-            printf("\nPulando para a próxima pergunta!!");
-            //volta pro topo do loop
-            continue;
-       
+            resposta_aux = pula_pergunta(nivel, vet_questao, ajudas, arq);
         }
 
         if(resposta == pergunta.alt_correta || resposta_aux == 1){

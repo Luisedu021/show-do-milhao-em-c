@@ -1,15 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "randomizador.h"
 #include <time.h>
+#include "randomizador.h"
+#include "ajudas_saida_struct.h"
 
-typedef struct{
-    char nivel;
-    char descricao[200];
-    char alt[4][30];
-    char alt_correta;
-}perguntas;
-
+//aqui temos a declarao das ajudas e do struct que vamos utilizar no codigo
 
 void ajuda_plateia(perguntas pergunta){
 
@@ -74,17 +69,37 @@ for(int i = 0;i < total_respostas;i++){
  
 }
 
+int pula_pergunta(int nivel, int* vet_questao, int* ajudas, FILE *arq){
+        int i, cursor;
+        char resposta, resposta_aux = 0;
+        perguntas pergunta;
 
-//saidas
+        ajudas[0] = ajudas[0] - 1;
 
-void saidas(perguntas pergunta, int* ajudas){
+        if(nivel < 4){
+            cursor = randomizador(vet_questao, 20, nivel - 1);
+        }else{
+            cursor = randomizador(vet_questao, 10, nivel - 1);
+        }
 
-    printf("\nNIVEL %d\n\n", pergunta.nivel);
-    printf("%s\n", pergunta.descricao);
-    printf("\na)%s", pergunta.alt[0]);
-    printf("\nb)%s", pergunta.alt[1]);
-    printf("\nc)%s", pergunta.alt[2]);
-    printf("\nd)%s", pergunta.alt[3]);
+        for(i=0; i<8; i++){
+            if(vet_questao[i] == -1){
+                vet_questao[i] = cursor;
+                return 1;
+                break;
+                
+            }
+        }
+ }
+
+ void saidas(perguntas pergunta_desejada, int* ajudas){
+
+    printf("\nNIVEL %d\n\n", pergunta_desejada.nivel);
+    printf("%s\n", pergunta_desejada.descricao);
+    printf("\na)%s", pergunta_desejada.alt[0]);
+    printf("\nb)%s", pergunta_desejada.alt[1]);
+    printf("\nc)%s", pergunta_desejada.alt[2]);
+    printf("\nd)%s", pergunta_desejada.alt[3]);
     printf("\n\nAJUDAS:");
     printf("\n[1] Pular pergunta (%dx)", ajudas[0]);
     printf("\n[2] Pedir ajuda a plateia (%dx)", ajudas[1]);
