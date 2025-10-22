@@ -1,17 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "randomizador.h"
-#include "ajudas_saida_struct.h"
+#include <string.h>
 
-//aqui temos a declarao das ajudas e do struct que vamos utilizar no codigo
+typedef struct{
+    char nivel;
+    char descricao[200];
+    char alt[4][30];
+    char alt_correta;
+}perguntas;
 
-void ajuda_plateia(perguntas pergunta){
+int main() {
 
 srand(time(NULL));
 int prob_correta= 40;
 int prob_restante = 20;
+perguntas pergunta;
+
 //(ela vai ser usado 3 vezes)
+pergunta.alt_correta = 'a';
+pergunta.nivel = '1';
+
+strcpy(pergunta.alt[0],"Letra a");
+strcpy(pergunta.alt[1],"Letra b");
+strcpy(pergunta.alt[2],"Letra c");
+strcpy(pergunta.alt[3],"Letra d");
+
+
 
 char alt_correta;  
 alt_correta = pergunta.alt_correta;
@@ -63,56 +78,14 @@ for(int i = 0;i < total_respostas;i++){
         else{
                 cont_d++;
         }
-        
+}
+
+// Bloco de 16 linhas substituído por 4 linhas:
+
 printf("A plateia votou:\n");
 printf("Alternativa A: %02d votos\n", cont_a);
 printf("Alternativa B: %02d votos\n", cont_b);
 printf("Alternativa C: %02d votos\n", cont_c);
 printf("Alternativa D: %02d votos\n", cont_d);
 
-}
-
- 
-}
-
-int pula_pergunta(int nivel, int* vet_questao, int* ajudas, FILE *arq){
-        int i, cursor;
-        char resposta, resposta_aux = 0;
-        perguntas pergunta;
-
-        ajudas[0] = ajudas[0] - 1;
-
-        if(nivel < 4){
-            cursor = randomizador(vet_questao, 20, nivel - 1);
-        }else{
-            cursor = randomizador(vet_questao, 10, nivel - 1);
-        }
-
-        for(i=0; i<8; i++){
-            if(vet_questao[i] == -1){
-                vet_questao[i] = cursor;
-                return 1;
-                break;
-                
-            }
-        }
- }
-
- void saidas(perguntas pergunta_desejada, int* ajudas){
-
-    printf("\nNIVEL %d\n\n", pergunta_desejada.nivel);
-    printf("%s\n", pergunta_desejada.descricao);
-    printf("\na)%s", pergunta_desejada.alt[0]);
-    printf("\nb)%s", pergunta_desejada.alt[1]);
-    printf("\nc)%s", pergunta_desejada.alt[2]);
-    printf("\nd)%s", pergunta_desejada.alt[3]);
-    printf("\n\nAJUDAS:");
-    printf("\n[1] Pular pergunta (%dx)", ajudas[0]);
-    printf("\n[2] Pedir ajuda a plateia (%dx)", ajudas[1]);
-    printf("\n[3] Pedir ajuda aos universitarios (%dx)", ajudas[2]);
-    printf("\n[4] Pedir ajuda as cartas (%dx)", ajudas[3]);
-    
-    printf("\n[5] Parar");
-    
-    printf("\n\nResposta: ");
 }

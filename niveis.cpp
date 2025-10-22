@@ -50,13 +50,19 @@ float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* aju
             }else if(saldo == 60000){
                 saldo = 100000;
             }
+            printf("\nCerta resposta!");
             printf("\nSaldo: R$ %.2f\n\n", saldo);
 
-        }else if(resposta == 5 || resposta_aux == 5){
+        }else if(resposta == '5' || resposta_aux == '5'){
+            printf("\nCerta resposta!\n");
             printf("SALDO FINAL: R$ %.2f", saldo);
             return 0;
-
-        }else{
+        }
+        else if(resposta == '2' ){
+                ajuda_plateia(pergunta);
+            }
+        else{
+            
             printf("RESPOSTA ERRADA!\nSaldo: R$ 0.00\n\nFIM DE JOGO!");
             return 0;
             }

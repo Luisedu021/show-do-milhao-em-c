@@ -12,7 +12,7 @@ int main(void){
     perguntas pergunta;
 
     FILE *arq;
-
+   
     arq = fopen("perguntas.dat", "rb");
     if(arq == NULL){
         perror("Erro ao abrir arquivo!\n");
