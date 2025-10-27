@@ -13,7 +13,7 @@ typedef struct{
 
 void saidas(perguntas pergunta_desejada, int* ajudas);
 
-void ajuda_plateia(perguntas pergunta);
+void ajuda_plateia(perguntas pergunta,int *ajudas);
 
 int pula_pergunta(int nivel, int* vet_questao, int* ajudas, FILE *arq);
 

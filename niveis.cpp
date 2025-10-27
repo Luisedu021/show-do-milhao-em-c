@@ -5,12 +5,14 @@
 #include "randomizador.h"
 
 
+
 float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* ajudas, FILE *arq,perguntas pergunta){
-    int i, cursor, resposta_aux = 0;
+    int i, cursor;
     char resposta;
     
+    
 
-    while(saldo < saldo_max){
+    while(saldo < saldo_max ){
         if(nivel < 4){
             cursor = randomizador(vet_questao, 20, nivel - 1);
         }else{
@@ -23,18 +25,19 @@ float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* aju
                 break;
             }
         }
+
         fseek(arq, cursor * sizeof(perguntas), SEEK_SET);
         fread(&pergunta, sizeof(perguntas), 1, arq);
 
+        
+
+        while(1){
         saidas(pergunta, ajudas);
         scanf("%c", &resposta);
         fflush(stdin);
+        if(resposta == 'a' || resposta == 'b' || resposta == 'c' || resposta =='d'){
 
-        if(resposta == '1' && ajudas[0] > 0){
-            resposta_aux = pula_pergunta(nivel, vet_questao, ajudas, arq);
-        }
-
-        if(resposta == pergunta.alt_correta || resposta_aux == 1){
+            if(resposta == pergunta.alt_correta){
             if(nivel == 1){
                 saldo += 1000;
             }else if(nivel == 2){
@@ -52,20 +55,49 @@ float niveis(float saldo, float saldo_max, int nivel, int* vet_questao, int* aju
             }
             printf("\nCerta resposta!");
             printf("\nSaldo: R$ %.2f\n\n", saldo);
+            break;
+                }
+            else{
+                printf("\nResposta errada!");
+                return 0;
+            }
+            
+        }
+        
 
-        }else if(resposta == '5' || resposta_aux == '5'){
+        else if(resposta == '1'){
+            if(ajudas[0] > 0){
+                ajudas[0]--;
+                break;
+            }
+            else{
+                printf("\nNao eh possivel mais pular a pergunta!");
+            }
+            
+        }
+
+        else if(resposta == '2'){
+            if(ajudas[1] > 0){
+                ajuda_plateia(pergunta,ajudas);
+            }
+            else{
+                printf("Ajudas da plateia ja usadas");
+            }
+        }  
+        
+        else if(resposta == '5' ){
             printf("\nCerta resposta!\n");
             printf("SALDO FINAL: R$ %.2f", saldo);
             return 0;
         }
-        else if(resposta == '2' ){
-                ajuda_plateia(pergunta);
-            }
+
         else{
-            
-            printf("RESPOSTA ERRADA!\nSaldo: R$ 0.00\n\nFIM DE JOGO!");
-            return 0;
-            }
+            printf("\nCaracter invalido!Digite novamente a resposta!\n");
+        }
+
+        }
+
+        
         }
         return 1;
 }

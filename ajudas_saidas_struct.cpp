@@ -4,9 +4,23 @@
 #include "randomizador.h"
 #include "ajudas_saida_struct.h"
 
+#ifdef _WIN32
+    // Se estiver compilando no Windows
+    #include <windows.h>
+    void pausar_execucao_ms(int milissegundos) {
+        Sleep(milissegundos);
+    }
+#else
+    // Para outros sistemas 
+    #include <unistd.h> // Para a função usleep
+    void pausar_execucao_ms(int milissegundos) {
+        usleep(milissegundos * 1000); 
+    }
+#endif
+
 //aqui temos a declarao das ajudas e do struct que vamos utilizar no codigo
 
-void ajuda_plateia(perguntas pergunta){
+void ajuda_plateia(perguntas pergunta,int *ajudas){
 
 srand(time(NULL));
 int prob_correta= 40;
@@ -64,48 +78,46 @@ for(int i = 0;i < total_respostas;i++){
                 cont_d++;
         }
         
+}
+
 printf("A plateia votou:\n");
 printf("Alternativa A: %02d votos\n", cont_a);
 printf("Alternativa B: %02d votos\n", cont_b);
 printf("Alternativa C: %02d votos\n", cont_c);
 printf("Alternativa D: %02d votos\n", cont_d);
 
-}
-
+ajudas[1]--;
  
 }
 
-int pula_pergunta(int nivel, int* vet_questao, int* ajudas, FILE *arq){
-        int i, cursor;
-        char resposta, resposta_aux = 0;
-        perguntas pergunta;
 
-        ajudas[0] = ajudas[0] - 1;
 
-        if(nivel < 4){
-            cursor = randomizador(vet_questao, 20, nivel - 1);
-        }else{
-            cursor = randomizador(vet_questao, 10, nivel - 1);
-        }
+void saidas(perguntas pergunta_desejada, int* ajudas){
 
-        for(i=0; i<8; i++){
-            if(vet_questao[i] == -1){
-                vet_questao[i] = cursor;
-                return 1;
-                break;
-                
-            }
-        }
- }
-
- void saidas(perguntas pergunta_desejada, int* ajudas){
+    int tempo_pausa_ms = 700; 
 
     printf("\nNIVEL %d\n\n", pergunta_desejada.nivel);
     printf("%s\n", pergunta_desejada.descricao);
+
+    //deixando o código mais bonitinho na parte de saida
+    fflush(stdout); 
+    pausar_execucao_ms(1000); 
+
     printf("\na)%s", pergunta_desejada.alt[0]);
+    fflush(stdout); 
+    pausar_execucao_ms(tempo_pausa_ms); 
+
     printf("\nb)%s", pergunta_desejada.alt[1]);
+    fflush(stdout); 
+    pausar_execucao_ms(tempo_pausa_ms); 
+
     printf("\nc)%s", pergunta_desejada.alt[2]);
+    fflush(stdout); 
+    pausar_execucao_ms(tempo_pausa_ms); 
+
     printf("\nd)%s", pergunta_desejada.alt[3]);
+    fflush(stdout); 
+    pausar_execucao_ms(tempo_pausa_ms); 
     printf("\n\nAJUDAS:");
     printf("\n[1] Pular pergunta (%dx)", ajudas[0]);
     printf("\n[2] Pedir ajuda a plateia (%dx)", ajudas[1]);
