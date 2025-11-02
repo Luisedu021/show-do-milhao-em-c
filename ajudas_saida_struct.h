@@ -11,10 +11,16 @@ typedef struct{
 }perguntas;
 
 
-void saidas(perguntas pergunta_desejada, int* ajudas);
+void saidas(perguntas pergunta_desejada, int* ajudas,int erradas_p_pular,float saldo,int num_pergunta);
 
 void ajuda_plateia(perguntas pergunta,int *ajudas);
 
-int pula_pergunta(int nivel, int* vet_questao, int* ajudas, FILE *arq);
+void ajuda_universitaria(perguntas pergunta,int *ajudas);
+
+int ajuda_das_cartas(int *ajudas);
+
+void desenhar_cartas();
+
+
 
 #endif
